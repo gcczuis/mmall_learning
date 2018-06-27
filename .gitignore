@@ -1,0 +1,35 @@
+*.class
+
+#package file
+#*.jar 到时候需要支付宝的jar包，而这个jar包在中央仓库是没有的，所以到时候需要放到lib下，所以不需要忽略.jar
+*.war
+*.ear
+
+#kdiff3 ignore
+*.orig
+
+#maven ignore
+target/
+
+#eclipse ignore
+.settings/
+.project
+.classpath
+
+#idea
+.idea/
+/idea/
+*.ipr
+*.iml
+*.iws
+
+#temp file
+*.log
+*.cache
+*.diff
+*.patch
+*.tmp
+
+# system ignore
+.DS_Store
+Thumbs.db
