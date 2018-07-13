@@ -116,7 +116,7 @@
     <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
-      <version>20.0</version>
+      <version>23.6-jre</version>
     </dependency>
 
 
@@ -131,6 +131,12 @@
       <groupId>commons-collections</groupId>
       <artifactId>commons-collections</artifactId>
       <version>3.2.1</version>
+        <exclusions>
+            <exclusion>
+                <groupId>com.google.code.google-collections</groupId>
+                <artifactId>google-collect</artifactId>
+            </exclusion>
+        </exclusions>
     </dependency>
 
 
@@ -250,9 +256,15 @@
     <version>1.3.2</version>
   </dependency>
     <dependency>
-      <groupId>org.apache.maven</groupId>
-      <artifactId>maven-compat</artifactId>
-      <version>3.0-alpha-2</version>
+        <groupId>org.apache.maven</groupId>
+        <artifactId>maven-compat</artifactId>
+        <version>3.0-alpha-2</version>
+        <exclusions>
+            <exclusion>
+                <groupId>com.google.code.google-collections</groupId>
+                <artifactId>google-collect</artifactId>
+            </exclusion>
+        </exclusions>
     </dependency>
   </dependencies>
 
@@ -269,20 +281,29 @@
           <overwrite>true</overwrite>
         </configuration>
       </plugin>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <configuration>
+                <source>8</source>
+                <target>8</target>
+            </configuration>
+        </plugin>
 
-      <!-- geelynote maven的核心插件之-complier插件默认只支持编译Java 1.4，因此需要加上支持高版本jre的配置，在pom.xml里面加上 增加编译插件 -->
-   <!--   <plugin>
+        <!-- geelynote maven的核心插件之-complier插件默认只支持编译Java 1.4，因此需要加上支持高版本jre的配置，在pom.xml里面加上 增加编译插件 -->
+   <plugin>
+     <!--这个插件的作用是将lib目录下的jar包(比如在中央仓库没有所以需要手动添加的支付宝jar包)在maven打包的时候添加到maven package中-->
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
         <configuration>
-          <source>1.7</source>
-          <target>1.7</target>
+          <source>1.8</source>
+          <target>1.8</target>
           <encoding>UTF-8</encoding>
           <compilerArguments>
             <extdirs>${project.basedir}/src/main/webapp/WEB-INF/lib</extdirs>
           </compilerArguments>
         </configuration>
-      </plugin>-->
+      </plugin>
     </plugins>
 
   </build>

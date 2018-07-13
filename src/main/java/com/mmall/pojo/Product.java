@@ -10,13 +10,13 @@ public class Product {
 
     private String name;
 
-    private String subtitle;
+    private String subtitle;//商品描述
 
     private String mainImage;
 
     private String subImages;
 
-    private String detail;
+    private String detail;//商品详情
 
     private BigDecimal price;
 
