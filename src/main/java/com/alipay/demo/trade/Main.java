@@ -2,7 +2,6 @@ package com.alipay.demo.trade;
 
 import com.alipay.api.AlipayResponse;
 import com.alipay.api.domain.TradeFundBill;
-import com.alipay.api.response.AlipayTradePrecreateResponse;
 import com.alipay.api.response.AlipayTradeQueryResponse;
 import com.alipay.api.response.MonitorHeartbeatSynResponse;
 import com.alipay.demo.trade.config.Configs;
@@ -23,7 +22,6 @@ import com.alipay.demo.trade.utils.Utils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 
 import java.util.*;
 
