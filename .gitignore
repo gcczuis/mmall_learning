@@ -1,4 +1,4 @@
-*.class
+﻿*.class
 
 #package file
 #*.jar 到时候需要支付宝的jar包，而这个jar包在中央仓库是没有的，所以到时候需要放到lib下，所以不需要忽略.jar
@@ -9,7 +9,7 @@
 *.orig
 
 #maven ignore
-target/
+#target/
 
 #eclipse ignore
 .settings/
