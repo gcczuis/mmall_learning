@@ -76,6 +76,8 @@
 
     </bean>
 
+    <!--关键：将basePackage包下的接口，通过jdk动态代理将接口代理成类注入spring容器中
+        todo 这个类没有配置sqlSessionFactory，那么在哪里将sqlSessionFactory注入到MapperScannerConfigurer的呢-->
     <bean name="mapperScannerConfigurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <property name="basePackage" value="com.mmall.dao"/>
     </bean>
