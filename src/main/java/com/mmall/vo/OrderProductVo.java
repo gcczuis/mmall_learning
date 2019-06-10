@@ -6,7 +6,7 @@ import java.util.List;
 public class OrderProductVo {
     private List<OrderItemVo> orderItemVoList;
     private BigDecimal productTotalPrice;
-    private  String imageHost;
+    private String imageHost;
 
     public List<OrderItemVo> getOrderItemVoList() {
         return orderItemVoList;

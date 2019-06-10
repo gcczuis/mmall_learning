@@ -3,7 +3,7 @@ package com.mmall.vo;
 import java.math.BigDecimal;
 
 public class CartProductVo {
-//结合了产品和购物车的一个抽象对象
+    //结合了产品和购物车的一个抽象对象
     private Integer id;
     private Integer userId;
     private Integer productId;

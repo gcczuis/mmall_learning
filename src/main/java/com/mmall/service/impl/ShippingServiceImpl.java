@@ -19,19 +19,21 @@ public class ShippingServiceImpl implements IShippingService {
 
     @Autowired
     private ShippingMapper shippingMapper;
-    public ServerResponse add(Integer userId, Shipping shipping){
+
+    public ServerResponse add(Integer userId, Shipping shipping) {
         //这个shipping只加在登录的那个人身上，不用考虑越权问题
         shipping.setUserId(userId);
         int rowCount = shippingMapper.insert(shipping);
         if (rowCount > 0) {
             Map result = Maps.newHashMap();
-            result.put("shippingId",shipping.getId());
+            result.put("shippingId", shipping.getId());
             return ServerResponse.createBySuccess(result);
         }
         return ServerResponse.createByErrorMessage("新建地址失败");
     }
+
     //存在横向越权的问题。因为这个登录用户的userId不一定是这个购物车的拥有者，所以需要验证这个购物车是否是这个用户的
-    public ServerResponse<String> del(Integer userId, Integer shippingId){
+    public ServerResponse<String> del(Integer userId, Integer shippingId) {
         int resultCount = shippingMapper.deleteByShippingIdUserId(userId, shippingId);
         if (resultCount > 0) {
             return ServerResponse.createBySuccessMessage("删除地址成功");
@@ -41,7 +43,7 @@ public class ShippingServiceImpl implements IShippingService {
     }
 
 
-    public ServerResponse update(Integer userId, Shipping shipping){
+    public ServerResponse update(Integer userId, Shipping shipping) {
         shipping.setUserId(userId);
         //不能用自动生成的根据shipping_id来update shipping，需要shipping_id和user_id的双重校验,防止横向越权
         int rowCount = shippingMapper.updateByShipping(shipping);
@@ -51,18 +53,18 @@ public class ShippingServiceImpl implements IShippingService {
         return ServerResponse.createByErrorMessage("更新地址失败");
     }
 
-    public ServerResponse<Shipping> select(Integer userId, Integer shippingId){
+    public ServerResponse<Shipping> select(Integer userId, Integer shippingId) {
         //要防止横向越权
 
         Shipping shipping = shippingMapper.selectByShippingIdUserId(userId, shippingId);
         if (shipping == null) {
             return ServerResponse.createByErrorMessage("无法查询到该地址");
         }
-        return ServerResponse.createBySuccess("更新地址成功",shipping);
+        return ServerResponse.createBySuccess("更新地址成功", shipping);
     }
 
-    public ServerResponse<PageInfo> list(Integer userId,int pageNum,int pageSize){
-        PageHelper.startPage(pageNum,pageSize);
+    public ServerResponse<PageInfo> list(Integer userId, int pageNum, int pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
         List<Shipping> shippingList = shippingMapper.selectByUserId(userId);
         PageInfo pageInfo = new PageInfo(shippingList);
         return ServerResponse.createBySuccess(pageInfo);

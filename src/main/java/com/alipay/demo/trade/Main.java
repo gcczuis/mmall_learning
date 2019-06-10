@@ -2,6 +2,7 @@ package com.alipay.demo.trade;
 
 import com.alipay.api.AlipayResponse;
 import com.alipay.api.domain.TradeFundBill;
+import com.alipay.api.response.AlipayTradePrecreateResponse;
 import com.alipay.api.response.AlipayTradeQueryResponse;
 import com.alipay.api.response.MonitorHeartbeatSynResponse;
 import com.alipay.demo.trade.config.Configs;
@@ -20,8 +21,8 @@ import com.alipay.demo.trade.service.impl.AlipayTradeServiceImpl;
 import com.alipay.demo.trade.service.impl.AlipayTradeWithHBServiceImpl;
 import com.alipay.demo.trade.utils.Utils;
 import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import java.util.*;
 
@@ -31,8 +32,7 @@ import java.util.*;
  * sdk和demo的意见和问题反馈请联系：liuyang.kly@alipay.com
  */
 public class Main {
-    private static Logger log = LoggerFactory.getLogger(Main.class);
-
+    private static Log log = LogFactory.getLog(Main.class);
 
     // 支付宝当面付2.0服务
     private static AlipayTradeService tradeService;
@@ -423,5 +423,31 @@ public class Main {
             .setGoodsDetailList(goodsDetailList);
 
         AlipayF2FPrecreateResult result = tradeService.tradePrecreate(builder);
+        switch (result.getTradeStatus()) {
+            case SUCCESS:
+                log.info("支付宝预下单成功: )");
+
+                AlipayTradePrecreateResponse response = result.getResponse();
+                dumpResponse(response);
+
+                // 需要修改为运行机器上的路径
+                String filePath = String.format("/Users/sudo/Desktop/qr-%s.png",
+                    response.getOutTradeNo());
+                log.info("filePath:" + filePath);
+                //                ZxingUtils.getQRCodeImge(response.getQrCode(), 256, filePath);
+                break;
+
+            case FAILED:
+                log.error("支付宝预下单失败!!!");
+                break;
+
+            case UNKNOWN:
+                log.error("系统异常，预下单状态未知!!!");
+                break;
+
+            default:
+                log.error("不支持的交易状态，交易返回异常!!!");
+                break;
+        }
     }
 }

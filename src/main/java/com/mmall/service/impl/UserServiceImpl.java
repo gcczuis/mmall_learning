@@ -57,6 +57,7 @@ public class UserServiceImpl implements IUserService {
 
     }
 
+    //用户填写username和email的时候前台能实时获得后台的校验结果，让前台展示
     public ServerResponse<String> checkValid(String str,String type){
         if(StringUtils.isNotBlank(type)){
             //开始校验

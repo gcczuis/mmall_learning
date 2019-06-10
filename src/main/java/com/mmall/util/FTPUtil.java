@@ -20,40 +20,41 @@ public class FTPUtil {
     private static String ftpUser = PropertiesUtil.getProperty("ftp.user");
     private static String ftpPass = PropertiesUtil.getProperty("ftp.pass");
 
-    public FTPUtil(String ip,int port,String user,String pwd){
+    public FTPUtil(String ip, int port, String user, String pwd) {
         this.ip = ip;
         this.port = port;
         this.user = user;
         this.pwd = pwd;
     }
+
     //这个异常需要抛到service层，service层捕获后再进行一些特殊处理。所以并不是所有异常都需要在底层捕获还是要看具体的业务场景
     public static boolean uploadFile(List<File> fileList) throws IOException {
-        FTPUtil ftpUtil = new FTPUtil(ftpIp,21,ftpUser,ftpPass);
+        FTPUtil ftpUtil = new FTPUtil(ftpIp, 21, ftpUser, ftpPass);
         logger.info("开始连接ftp服务器");
-        boolean result = ftpUtil.uploadFile("img",fileList);
-        logger.info("结束上传,上传结果:{}",result);
+        boolean result = ftpUtil.uploadFile("img", fileList);
+        logger.info("结束上传,上传结果:{}", result);
         return result;
     }
 
 
-    private boolean uploadFile(String remotePath,List<File> fileList) throws IOException {
+    private boolean uploadFile(String remotePath, List<File> fileList) throws IOException {
         boolean uploaded = true;
         FileInputStream fis = null;
         //连接FTP服务器
-        if(connectServer(this.ip,this.port,this.user,this.pwd)){
+        if (connectServer(this.ip, this.port, this.user, this.pwd)) {
             try {
                 ftpClient.changeWorkingDirectory(remotePath);
                 ftpClient.setBufferSize(1024);
                 ftpClient.setControlEncoding("UTF-8");
                 ftpClient.setFileType(FTPClient.BINARY_FILE_TYPE);
                 ftpClient.enterLocalPassiveMode();
-                for(File fileItem : fileList){
+                for (File fileItem : fileList) {
                     fis = new FileInputStream(fileItem);
-                    ftpClient.storeFile(fileItem.getName(),fis);
+                    ftpClient.storeFile(fileItem.getName(), fis);
                 }
 
             } catch (IOException e) {
-                logger.error("上传文件异常",e);
+                logger.error("上传文件异常", e);
                 uploaded = false;
                 e.printStackTrace();
             } finally {
@@ -65,28 +66,18 @@ public class FTPUtil {
     }
 
 
-
-    private boolean connectServer(String ip,int port,String user,String pwd){
+    private boolean connectServer(String ip, int port, String user, String pwd) {
 
         boolean isSuccess = false;
         ftpClient = new FTPClient();
         try {
             ftpClient.connect(ip);
-            isSuccess = ftpClient.login(user,pwd);
+            isSuccess = ftpClient.login(user, pwd);
         } catch (IOException e) {
-            logger.error("连接FTP服务器异常",e);
+            logger.error("连接FTP服务器异常", e);
         }
         return isSuccess;
     }
-
-
-
-
-
-
-
-
-
 
 
     private String ip;

@@ -31,7 +31,7 @@ public class ServerResponse<T> implements Serializable {
         this.msg = msg;
     }
     @JsonIgnore
-    //使之不在json序列化结果当中
+    //todo why使之不在json序列化结果当中
     public boolean isSuccess() {
         return this.status == ResponseCode.SUCCESS.getCode();
     }
@@ -57,6 +57,7 @@ public class ServerResponse<T> implements Serializable {
         return new ServerResponse<T>(ResponseCode.SUCCESS.getCode(), msg);
     }
 
+    //原来自己调用构造函数传入String的data时会匹配到private ServerResponse(int status, String msg)这个构造方法，现在通过createBySuccess(T data)这个静态方法来创建对象就不会出现这个问题了。
     public static <T> ServerResponse<T> createBySuccess(T data) {
         return new ServerResponse<T>(ResponseCode.SUCCESS.getCode(), data);
     }

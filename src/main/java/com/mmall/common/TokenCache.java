@@ -16,8 +16,12 @@ public class TokenCache {
     
     public static final String TOKEN_PREFIX = "token_";
     private static Logger logger = LoggerFactory.getLogger(TokenCache.class);
-    //LRU算法
-    private static LoadingCache<String,String> localCache = CacheBuilder.newBuilder().maximumSize(1000).expireAfterAccess(12,TimeUnit.HOURS).build(new CacheLoader<String, String>() {
+    //LRU算法（当缓存中数量到达最大10000后会使用LRU算法去除最少使用的缓存项）
+    private static LoadingCache<String,String> localCache = CacheBuilder.newBuilder()
+            .initialCapacity(1000)
+            .maximumSize(10000)
+            .expireAfterAccess(12,TimeUnit.HOURS)
+            .build(new CacheLoader<String, String>() {
         //默认的数据加载实现，当调用get取值的时候，如果key没有对应的值，就调用这个方法进行加载。
         @Override
         public String load(String s) throws Exception {
